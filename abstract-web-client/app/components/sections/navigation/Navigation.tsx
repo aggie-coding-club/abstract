@@ -26,7 +26,7 @@ export default function Navigation() {
         <nav className="bg-transparent flex justify-between items-center px-20 py-2">
             <Link
                 href="/"
-                className="bg-brush-stroke-1 bg-no-repeat bg-contain bg-center w-64 h-14 flex justify-center items-center"
+                className="bg-brush-stroke-1 bg-no-repeat bg-contain bg-center w-64 h-14 flex justify-center items-center flex-shrink-0"
             >
                 <p className="text-white bg-none text-3xl tracking-[0.15em]">
                     abstract
