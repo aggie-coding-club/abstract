@@ -1,3 +1,5 @@
 export default function Home() {
-    return <main className="flex flex-col items-center">HOME</main>;
+    return (
+        <main className="flex flex-col justify-center items-center">HOME</main>
+    );
 }
