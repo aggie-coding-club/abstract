@@ -1,15 +1,12 @@
 "use client";
 
-import { User } from "firebase/auth";
 import { usePathname } from "next/navigation";
-import { signInWithGoogle, signOut } from "../../../firebase/firebase";
+import { useAuth } from "../components/context/AuthContext";
+import { signInWithGoogle, signOut } from "@/app/firebase/auth";
 
-interface SignInProps {
-    user: User | null;
-}
-
-export default function SignIn({ user }: SignInProps) {
+export default function SignIn() {
     const pathname = usePathname();
+    const user = useAuth();
 
     return (
         <>

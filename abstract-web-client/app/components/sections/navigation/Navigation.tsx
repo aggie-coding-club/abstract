@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import NavLinks from "./NavLinks";
-import { onAuthStateChangedHelper } from "@/app/firebase/firebase";
 import { User } from "firebase/auth";
+import { onAuthStateChangedHelper } from "@/app/firebase/auth";
 
 export type NavLink = {
     name: string;
@@ -18,6 +18,10 @@ const navLinks: NavLink[] = [
     {
         name: "Discover",
         href: "/discover",
+    },
+    {
+        name: "Sign In",
+        href: "/login",
     },
 ];
 
@@ -42,7 +46,7 @@ export default function Navigation() {
                     abstract
                 </p>
             </Link>
-            <NavLinks navLinks={navLinks} user={user} />
+            <NavLinks navLinks={navLinks} />
         </nav>
     );
 }

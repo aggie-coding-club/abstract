@@ -3,15 +3,14 @@ import Link from "next/link";
 import { NavLink } from "./Navigation";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { User } from "firebase/auth";
-import SignIn from "./SignIn";
+import SignIn from "../../../login/SignInButton";
+import { AuthProvider, useAuth } from "../../context/AuthContext";
 
 export type NavLinksProps = Readonly<{
     navLinks: NavLink[];
-    user: User | null;
 }>;
 
-export default function NavLinks({ navLinks, user }: NavLinksProps) {
+export default function NavLinks({ navLinks }: NavLinksProps) {
     const pathname = usePathname();
 
     return (
@@ -30,7 +29,6 @@ export default function NavLinks({ navLinks, user }: NavLinksProps) {
                     </Link>
                 </div>
             ))}
-            <SignIn user={user} />
         </div>
     );
 }
