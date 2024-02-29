@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useAuth } from "../components/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { signInWithGoogle, signOut } from "@/app/firebase/auth";
 
 export default function SignIn() {

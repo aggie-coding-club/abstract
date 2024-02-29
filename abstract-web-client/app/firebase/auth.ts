@@ -1,13 +1,16 @@
 import { User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { auth } from "./firebase";
+import { error } from "console";
 
 /**
  * Signs the user in with Google Popup
  * @returns A promise that resolves when the user is signed in
  */
 export function signInWithGoogle() {
-    return signInWithPopup(auth, new GoogleAuthProvider());
+    return signInWithPopup(auth, new GoogleAuthProvider()).catch((error) => {
+        console.log("Error: Auth Pop-up closed");
+    });
 }
 
 /**

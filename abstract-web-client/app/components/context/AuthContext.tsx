@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
+        console.log(user);
         const unsubscribe = onAuthStateChangedHelper((user) => {
             setUser(user);
         });
