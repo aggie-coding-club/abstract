@@ -31,7 +31,7 @@ export async function addUser(isNew:boolean, gUser: { [email:string]:any}){ //i'
             const userQuery = query(userBase);
             const totalUsers = (await getDocs(userQuery)).size;
             //add the user to the cloud firestore
-              await setDoc(doc(db, "users", `user${totalUsers}`), {
+              await setDoc(doc(db, "users", gUser.uid), {
                 email: gUser.email,
                 photoUrl: gUser.photoURL,
                 uid: gUser.uid,
