@@ -1,61 +1,42 @@
-from google.cloud import storage
 from flask import Flask, request
-from google.api_core.exceptions import NotFound
-from google.resumable_media.common import InvalidResponse
 import os
+from storage import *
 app = Flask(__name__)
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "cloud-storage-key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./app/cloud-storage-key.json"
 
 
-"""
-    Downloads the raw image to the correct folder
-"""
-
-
-@app.route('/downloadimage', methods=["GET"])
-def downloadRawImage():
-
-    setupDirectories()
-
-    uid = request.args.get('uid')
-    time = request.args.get('time')
-
-    storage_client = storage.Client()
-
-    bucket = storage_client.get_bucket('abstract-raw-image-bucket')
-
-    filetypes = ['.png', '.svg', '.jpg']
-
-    for filetype in filetypes:
-        blob = bucket.blob(uid + '-' + time + filetype)
-        if blob.exists():
-            blob.download_to_filename(
-                'rawImages/' + uid + '-' + time + filetype)
-            return 'Image was downloaded', 200
-    return 'Image not found', 404
-
-
-"""
-    Creates the folders to hold the images 
-"""
-
-
+@app.before_request
 def setupDirectories():
-    if not os.path.exists(r'rawImages'):
-        os.makedirs(r'rawImages')
-    if not os.path.exists(r'processedImages'):
-        os.makedirs(r'processedImages')
+    """
+        Creates the folders to hold the images 
+    """
+
+    if not os.path.exists(LOCAL_RAW_IMAGE_PATH):
+        os.makedirs(LOCAL_RAW_IMAGE_PATH)
+    if not os.path.exists(LOCAL_PROCESSED_IMAGE_PATH):
+        os.makedirs(LOCAL_PROCESSED_IMAGE_PATH)
 
 
-"""
-    Deletes the image from the correct folder
-"""
+
+# tested downloading and deleting
+@app.route('/process-image', methods=["POST"])
+def processImage():
+    data = request.json
+    inputFileName = data.get("inputFileName")
+
+    if not inputFileName:
+        return "Error: Filename not found", 400
+    
+    downloadRawImage(inputFileName)
+
+    # should be done after processing
+    deleteImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
 
 
-def deleteImage(url):
-    os.remove(url)
+    return "stuff happened", 200
+
 
 
 if __name__ == '__main__':

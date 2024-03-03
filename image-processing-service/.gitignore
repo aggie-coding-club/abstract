@@ -1,1 +1,4 @@
 .venv/
+env
+app/__pycache__
+app/cloud-storage-key.json
