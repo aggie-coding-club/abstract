@@ -2,10 +2,11 @@
 import { useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import SignIn from "./SignInButton";
+
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "@/app/components/context/AuthContext";
+import { signInWithGoogle, signOut } from "@/app/firebase/auth";
 
 export default function LoginModal() {
     const searchParams = useSearchParams();
@@ -48,10 +49,46 @@ export default function LoginModal() {
                     />
                 </div>
                 <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] gap-1 justify-center items-center flex-grow text-nowrap">
-                    {user && <p>Hi {user?.displayName}</p>}
-                    <AuthProvider>
-                        <SignIn />
-                    </AuthProvider>
+                    {user && <p>Hi, {user?.displayName}</p>}
+                    <>
+                        {user ? (
+                            <div
+                                className={`hover:bg-underline-stroke bg-no-repeat bg-bottom py-2 bg-clip-padding ${
+                                    pathname === "navLink.href"
+                                        ? "bg-underline-stroke"
+                                        : "bg-none"
+                                }`}
+                            >
+                                <button
+                                    className="mx-5 text-2xl"
+                                    onClick={() => {
+                                        handleDialog();
+                                        signOut();
+                                    }}
+                                >
+                                    Sign Out
+                                </button>
+                            </div>
+                        ) : (
+                            <div
+                                className={`hover:bg-underline-stroke bg-no-repeat bg-bottom py-2 bg-clip-padding ${
+                                    pathname === "navLink.href"
+                                        ? "bg-underline-stroke"
+                                        : "bg-none"
+                                }`}
+                            >
+                                <button
+                                    className="mx-5 text-2xl"
+                                    onClick={() => {
+                                        handleDialog();
+                                        signInWithGoogle();
+                                    }}
+                                >
+                                    Sign In
+                                </button>
+                            </div>
+                        )}
+                    </>
                 </div>
             </div>
         </dialog>

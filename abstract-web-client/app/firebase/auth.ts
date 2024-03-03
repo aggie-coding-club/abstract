@@ -1,32 +1,21 @@
-import { User, getAdditionalUserInfo, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { auth, db, addUser } from "./firebase";
-import { error } from "console";
-
-
-
+import { auth, db } from "./firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 /**
  * Signs the user in with Google Popup
  * @returns A promise that resolves when the user is signed in
  */
 export function signInWithGoogle() {
-    //console.log(auth);
     return signInWithPopup(auth, new GoogleAuthProvider())
-    .then((result)=>{
-        //get if the user is newly authenticated or not
-        const userInfo = getAdditionalUserInfo(result)
-        if(userInfo!=null){
-        //call the firestore to make a new document for a newly authenticated user
-        addUser(userInfo.isNewUser,result.user);
-        }
-    })
-    .catch((error) => {
-        console.log("Error: Auth Pop-up closed");
-    });
+        .then((result) => {
+            addUser(result.user);
+        })
+        .catch((error) => {
+            console.log("Error: Auth Pop-up closed");
+        });
 }
-
-
 
 /**
  * Signs the user out
@@ -46,4 +35,21 @@ export function onAuthStateChangedHelper(
     return onAuthStateChanged(auth, callback);
 }
 
-
+/**
+ * Registers user in Firestore if user does not exist
+ * @param user - User object
+ */
+async function addUser(user: User) {
+    const { displayName, email, photoURL, uid } = user;
+    const docInfo = await getDoc(doc(db, "users", uid));
+    if (docInfo != null) {
+        await setDoc(doc(db, "users", uid), {
+            displayName: displayName,
+            email: email,
+            photoUrl: photoURL,
+            uid: uid,
+        });
+    } else {
+        console.log("Account already exists in database!");
+    }
+}
