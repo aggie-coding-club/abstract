@@ -1,17 +1,32 @@
-import { User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { User, getAdditionalUserInfo, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth, db, addUser } from "./firebase";
 import { error } from "console";
+
+
+
 
 /**
  * Signs the user in with Google Popup
  * @returns A promise that resolves when the user is signed in
  */
 export function signInWithGoogle() {
-    return signInWithPopup(auth, new GoogleAuthProvider()).catch((error) => {
+    //console.log(auth);
+    return signInWithPopup(auth, new GoogleAuthProvider())
+    .then((result)=>{
+        //get if the user is newly authenticated or not
+        const userInfo = getAdditionalUserInfo(result)
+        if(userInfo!=null){
+        //call the firestore to make a new document for a newly authenticated user
+        addUser(userInfo.isNewUser,result.user);
+        }
+    })
+    .catch((error) => {
         console.log("Error: Auth Pop-up closed");
     });
 }
+
+
 
 /**
  * Signs the user out
@@ -30,3 +45,5 @@ export function onAuthStateChangedHelper(
 ) {
     return onAuthStateChanged(auth, callback);
 }
+
+
