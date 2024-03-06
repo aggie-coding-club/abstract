@@ -1,10 +1,16 @@
 from flask import Flask, request
 import os
 from storage import *
+from imagemanipulation import blurImage, blurSelect
 app = Flask(__name__)
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./app/cloud-storage-key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "cloud-storage-key.json"
+
+
+@app.route('/')
+def serverStart():
+    return "Server is running", 200
 
 
 @app.before_request
@@ -19,7 +25,6 @@ def setupDirectories():
         os.makedirs(LOCAL_PROCESSED_IMAGE_PATH)
 
 
-
 # tested downloading and deleting
 @app.route('/process-image', methods=["POST"])
 def processImage():
@@ -28,15 +33,12 @@ def processImage():
 
     if not inputFileName:
         return "Error: Filename not found", 400
-    
     downloadRawImage(inputFileName)
 
     # should be done after processing
     deleteImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
 
-
-    return "stuff happened", 200
-
+    return "Image was processed", 200
 
 
 if __name__ == '__main__':
