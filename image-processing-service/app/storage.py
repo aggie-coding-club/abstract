@@ -27,6 +27,12 @@ def downloadRawImage(inputFileName):
 
 
 
+def saveProcessedImage(filename, image):
+    """
+    Saves the image to the local processed folder
+    """
+    image.save(f"{LOCAL_PROCESSED_IMAGE_PATH}/{filename}")
+
 
 
 def deleteImage(filePath):

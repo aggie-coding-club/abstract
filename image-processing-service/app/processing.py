@@ -1,14 +1,10 @@
 from PIL import Image, ImageOps
-from storage import LOCAL_RAW_IMAGE_PATH, LOCAL_PROCESSED_IMAGE_PATH
-import numpy as np
-"""
-
-function that applies a simple blur effect to an image
-
-"""
 
 
-def pixelImage(image_path, pixel_size):
+def pixelateImage(image_path, pixel_size):
+    '''
+    Pixelates an image
+    '''
     image = Image.open(image_path)
 
     width, height = image.size
@@ -19,29 +15,26 @@ def pixelImage(image_path, pixel_size):
     # resize the image to the original size, Image.NEAREST selects the nearest original pixel to the new pixel and copies it over
     pixel_art = resized_image.resize((width, height), Image.NEAREST)
 
-    filename = image_path.split("/")[-1]
-
-    saveImage(filename, pixel_art)
+    return pixel_art
 
 
 def grayscaleImage(image_path):
+    '''
+    Grayscales an image
+    '''
     image = Image.open(image_path)
     gray_image = ImageOps.grayscale(image)
-    filename = image_path.split("/")[-1]
 
-    saveImage(filename, gray_image)
+    return gray_image
 
 
 def invertImage(image_path):
+    '''
+    Negates the image
+    '''
     image = Image.open(image_path)
-    gray_image = ImageOps.invert(image)
-    filename = image_path.split("/")[-1]
+    inverted_image = ImageOps.invert(image)
 
-    saveImage(filename, gray_image)
-
-
-def saveImage(filename, pixel_art):
-    pixel_art.save(f"{LOCAL_PROCESSED_IMAGE_PATH}/{filename}")
+    return inverted_image
 
 
-pixelImage("rawImages/image.png", 3)
