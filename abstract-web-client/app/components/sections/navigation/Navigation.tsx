@@ -6,8 +6,7 @@ import { onAuthStateChangedHelper } from "@/app/firebase/auth";
 import dynamic from "next/dynamic";
 import LoginModal from "./sign-in/LoginModal";
 import { AuthProvider } from "../../context/AuthContext";
-
-const Menu = dynamic(() => import("./BurgerMenu"), { ssr: true });
+import BurgerMenu from "./BurgerMenu";
 
 export default function Navigation() {
     const [user, setUser] = useState<User | null>(null);
@@ -31,9 +30,8 @@ export default function Navigation() {
                         abstract
                     </p>
                 </Link>
-                <Menu />
+                <BurgerMenu />
             </nav>
-            {/* Login Modal */}
             <AuthProvider>
                 <LoginModal />
             </AuthProvider>
