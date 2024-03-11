@@ -65,10 +65,21 @@ def processImage():
     if not inputFileName:
         return "Error: Filename not found", 400
 
+    # download from bucket
     downloadRawImage(inputFileName)
+    
+    # convert to art
+    pixelated_image = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}", 10)
 
-    # should be done after processing
-    deleteImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+    # save art
+    downloadProcessedImage(outputFileName, pixelated_image)
+
+    # upload to processed bucket
+    uploadProcessedImage(outputFileName)
+
+    # delete locally
+    deleteRawImage(inputFileName)
+    deleteProcessedImage(outputFileName)
 
     return "Image was processed", 200
 

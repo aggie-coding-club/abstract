@@ -27,13 +27,22 @@ def downloadRawImage(inputFileName):
 
 
 
-def saveProcessedImage(filename, image):
+def downloadProcessedImage(filename, image):
     """
     Saves the image to the local processed folder
     """
     image.save(f"{LOCAL_PROCESSED_IMAGE_PATH}/{filename}")
 
+def uploadProcessedImage(filename):
+    """
+    Saves the image to processed cloud storage bucket
+    """
 
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(PROCESSED_BUCKET_NAME)
+    blob = bucket.blob(filename)
+    blob.upload_from_filename(f"{LOCAL_PROCESSED_IMAGE_PATH}/{filename})")
+    blob.make_public()
 
 def deleteImage(filePath):
     """
@@ -41,3 +50,17 @@ def deleteImage(filePath):
     """
 
     os.remove(filePath)
+
+
+def deleteRawImage(filename):
+    """
+    Deletes image in local raw image folder
+    """
+    deleteImage(f"{LOCAL_RAW_IMAGE_PATH}/{filename}")
+
+
+def deleteProcessedImage(filename):
+    """
+    Deletes image in local processed image folder
+    """
+    deleteImage(f"{LOCAL_PROCESSED_IMAGE_PATH}/{filename}")
