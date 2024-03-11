@@ -1,9 +1,10 @@
 import { User } from "firebase/auth";
+import { randomUUID } from "crypto";
 
 export async function uploadImage(user: User | null, image: File) {
     const inputFileName = `${
         user?.uid ? user.uid : ""
-    }-${Date.now()}.${image.name.split(".").pop()}`;
+    }-${Date.now()}-${randomUUID()}.${image.name.split(".").pop()}`; // UID -
 
     try {
         const data = {
