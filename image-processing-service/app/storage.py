@@ -25,8 +25,6 @@ def downloadRawImage(inputFileName):
         )
     )
 
-
-
 def downloadProcessedImage(filename, image):
     """
     Saves the image to the local processed folder
@@ -41,7 +39,7 @@ def uploadProcessedImage(filename):
     storage_client = storage.Client()
     bucket = storage_client.bucket(PROCESSED_BUCKET_NAME)
     blob = bucket.blob(filename)
-    blob.upload_from_filename(f"{LOCAL_PROCESSED_IMAGE_PATH}/{filename})")
+    blob.upload_from_filename(f"{LOCAL_PROCESSED_IMAGE_PATH}/{filename}")
     blob.make_public()
 
 def deleteImage(filePath):
