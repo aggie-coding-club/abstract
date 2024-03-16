@@ -1,19 +1,16 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
-import LoginModal from "./sign-in/LoginModal";
 
 export type NavLink = {
     name: string;
     href: string;
 };
 
-export type NavLinksProps = Readonly<{
-    showMenu: boolean;
-    setShowMenu: (showMenu: boolean) => void;
-}>;
-
-export default function NavLinks({ showMenu, setShowMenu }: NavLinksProps) {
+export default function NavLinks() {
+    const [showMenu, setShowMenu] = useState<boolean>(false);
     const pathname = usePathname();
 
     const handleClick = () => {
@@ -39,30 +36,50 @@ export default function NavLinks({ showMenu, setShowMenu }: NavLinksProps) {
     ];
 
     return (
-        <div
-            className={`${
-                showMenu ? "flex" : "hidden"
-            } sm:flex absolute inset-0 z-10 flex-col justify-center items-center gap-3 bg-white
-            sm:static sm:flex-row sm:justify-between sm:items-center`}
-        >
-            {navLinks.map((navLink, index) => (
-                <div
-                    className={`hover:bg-underline-stroke bg-no-repeat bg-bottom py-2 bg-clip-padding ${
-                        pathname === navLink.href
-                            ? "bg-underline-stroke"
-                            : "bg-none"
-                    }`}
-                    key={index}
-                >
-                    <Link
-                        href={navLink.href}
-                        className="mx-5 text-2xl text-nowrap"
-                        onClick={handleClick}
+        <>
+            {showMenu ? (
+                <Image
+                    src="./x.svg"
+                    width={24}
+                    height={24}
+                    alt="X"
+                    className="md:hidden z-20 flex-shrink-0 cursor-pointer"
+                    onClick={() => setShowMenu(!showMenu)}
+                />
+            ) : (
+                <Image
+                    src="./burger-menu.svg"
+                    width={24}
+                    height={24}
+                    alt="Burger Menu"
+                    className="md:hidden flex-shrink-0 cursor-pointer"
+                    onClick={() => setShowMenu(!showMenu)}
+                />
+            )}
+            <div
+                className={`${showMenu ? "flex" : "hidden"} 
+                    md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-3 bg-white
+            md:static md:flex-row md:justify-between md:items-center`}
+            >
+                {navLinks.map((navLink, index) => (
+                    <div
+                        className={`hover:bg-underline-stroke bg-no-repeat bg-bottom py-2 bg-clip-padding ${
+                            pathname === navLink.href
+                                ? "bg-underline-stroke"
+                                : "bg-none"
+                        }`}
+                        key={index}
                     >
-                        {navLink.name}
-                    </Link>
-                </div>
-            ))}
-        </div>
+                        <Link
+                            href={navLink.href}
+                            className="mx-5 text-2xl text-nowrap"
+                            onClick={handleClick}
+                        >
+                            {navLink.name}
+                        </Link>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 }
