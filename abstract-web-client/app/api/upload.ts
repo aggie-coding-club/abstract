@@ -37,7 +37,7 @@ async function uploadImage(user: User | null, image: File) {
     };
 
     try {
-        // fetch signed url
+        // fetch signed url wakka wakka wakka wakka wakka
         const response = await fetch("http://127.0.0.1:5000/get-upload-url", {
             method: "PUT",
             headers: {
