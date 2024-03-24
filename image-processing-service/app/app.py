@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from google.cloud import storage
 import os
 import datetime
@@ -45,7 +45,7 @@ def getUploadUrl():
         )
     except:
         return "Error generating signed url", 500
-
+    
     return url , 200
 
 
@@ -81,7 +81,15 @@ def processImage():
     deleteRawImage(inputFileName)
     deleteProcessedImage(outputFileName)
 
-    return "Image was processed", 200
+    #delete uploaded raw bucket image
+    deleteRawBucketImage(inputFileName)
+    print(f"INPUT FILE NAME: {inputFileName}")
+    print(f"OUTPUT FILE NAME: {outputFileName}")
+    fileData = {
+        "fileID": inputFileName.split(".")[0],
+        "fileName": outputFileName
+    }
+    return jsonify(fileData), 200
 
 
 if __name__ == '__main__':

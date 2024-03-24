@@ -49,6 +49,11 @@ def deleteImage(filePath):
 
     os.remove(filePath)
 
+def deleteRawBucketImage(filePath):
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(RAW_BUCKET_NAME)
+    bucket.blob(filePath).delete()
+    print("Raw Image Deleted from Cloud Bucket")
 
 def deleteRawImage(filename):
     """
