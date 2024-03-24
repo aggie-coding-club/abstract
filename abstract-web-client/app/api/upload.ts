@@ -1,17 +1,22 @@
 import { User } from "firebase/auth";
+import { addImage } from "../firebase/firebase";
+import { RSCPathnameNormalizer } from "next/dist/server/future/normalizers/request/rsc";
 import { v4 as uuidv4 } from "uuid";
 
 export async function processImage(user: User | null, image: File) {
     const data = await uploadImage(user, image);
 
     try {
-        await fetch("http://127.0.0.1:5000/process-image", {
+            const response = await fetch("http://127.0.0.1:5000/process-image", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         });
+        const {fileID, fileName} = await response.json();
+        addImage(fileName,fileID);
+        
 
         return data.inputFileName;
     } catch (err) {
@@ -48,7 +53,6 @@ async function uploadImage(user: User | null, image: File) {
 
         // upload image via signed url
         const url = await response.text();
-
         await fetch(url, {
             method: "PUT",
             headers: {
