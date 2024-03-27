@@ -2,7 +2,6 @@
 import { useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "@/app/components/context/AuthContext";
@@ -15,7 +14,6 @@ export default function LoginModal() {
     const router = useRouter();
     const pathname = usePathname();
     const user = useAuth();
-
     useEffect(() => {
         if (showDialog === "y") {
             dialogRef.current?.showModal();
@@ -70,21 +68,21 @@ export default function LoginModal() {
                                 </button>
                             </div>
                         ) : (
-                            <div
-                                className={`hover:bg-underline-stroke bg-no-repeat bg-bottom py-2 bg-clip-padding ${
+                            <div //hover:bg-underline-stroke
+                                className={`h-20 content-center bg-no-repeat bg-bottom py-2 bg-clip-padding ${
                                     pathname === "navLink.href"
                                         ? "bg-underline-stroke"
                                         : "bg-none"
                                 }`}
                             >
                                 <button
-                                    className="mx-5 text-2xl"
+                                    className="mx-5 h-auto size-40"
                                     onClick={() => {
                                         handleDialog();
                                         signInWithGoogle();
                                     }}
                                 >
-                                    Sign In
+                                    <img src="./sign-in-button.svg"/>
                                 </button>
                             </div>
                         )}

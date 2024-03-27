@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { use, useState } from "react";
 import { usePathname } from "next/navigation";
 
 export type NavLink = {
@@ -9,10 +9,10 @@ export type NavLink = {
     href: string;
 };
 
-export default function NavLinks() {
+export default function NavLinks(props:any) {
+    console.log(props.user)
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const pathname = usePathname();
-
     const handleClick = () => {
         // Only toggle the menu if the screen size is smaller than sm
         if (window.innerWidth < 640) {
@@ -59,11 +59,11 @@ export default function NavLinks() {
             <div
                 className={`${showMenu ? "flex" : "hidden"} 
                     md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-3 bg-white
-            md:static md:flex-row md:justify-between md:items-center`}
+            md:static md:flex-row md:justify-between md:items-center h-12`}
             >
                 {navLinks.map((navLink, index) => (
                     <div
-                        className={`hover:bg-underline-stroke bg-no-repeat bg-bottom py-2 bg-clip-padding ${
+                        className={`${navLink.name==="Sign In"&&props.user? "": "hover:bg-underline-stroke"} bg-no-repeat bg-bottom py-2 bg-clip-padding h-auto${
                             pathname === navLink.href
                                 ? "bg-underline-stroke"
                                 : "bg-none"
@@ -72,10 +72,10 @@ export default function NavLinks() {
                     >
                         <Link
                             href={navLink.href}
-                            className="mx-5 text-2xl text-nowrap"
+                            className="mx-5 text-2xl h-8 text-nowrap"
                             onClick={handleClick}
                         >
-                            {navLink.name}
+                            {navLink.name==="Sign In"&&props.user? <img className="rounded-full mx-5 text-2xl h-auto size-12"src={props.user.photoURL}/>:navLink.name}
                         </Link>
                     </div>
                 ))}
