@@ -9,7 +9,6 @@ import NavLinks from "./NavLinks";
 
 export default function Navigation() {
     const [user, setUser] = useState<User | null>(null);
-
     useEffect(() => {
         const unsubscribe = onAuthStateChangedHelper((user) => {
             setUser(user);
@@ -29,7 +28,7 @@ export default function Navigation() {
                         abstract
                     </p>
                 </Link>
-                <NavLinks />
+                <NavLinks user={user}/>
             </nav>
             <AuthProvider>
                 <LoginModal />
