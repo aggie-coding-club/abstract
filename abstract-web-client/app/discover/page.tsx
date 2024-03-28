@@ -3,7 +3,7 @@ import Upload from "./upload/upload";
 
 export default function Discover() {
     return (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col text-center gap-4 px-20">
             DISCOVER
             <AuthProvider>
                 <Upload />

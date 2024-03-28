@@ -17,19 +17,3 @@ export const auth = getAuth();
 
 //Initialize Firestore Database
 export const db = getFirestore(app);
-
-// will take in a filename, and id
-export async function addImage(fileName: string, fileID: string) {
-    if(!auth.currentUser){
-        console.log("You Must Be Logged In To Upload an Image To The Database!") //CHANGE LATER
-        return
-    }
-    //const docInfo = await getDoc(doc(db, "images", auth.currentUser.uid));    
-    await setDoc(doc(db, "images", fileID), {
-            filename: fileName,
-            id: fileID,
-            status: "Processed",
-            title: "placeholder",
-        });
-
-}
