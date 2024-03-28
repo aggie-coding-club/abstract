@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Finger_Paint } from "next/font/google";
 import "./globals.css";
 import Navigation from "./components/sections/navigation/Navigation";
-
+import Footer from "./components/sections/navigation/Footer";
 const FingerPaint = Finger_Paint({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,8 +19,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={FingerPaint.className}>
-                <Navigation />
+                <Navigation /> 
                 {children}
+                <Footer /> 
             </body>
         </html>
     );
