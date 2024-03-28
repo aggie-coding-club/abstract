@@ -2,15 +2,14 @@ from flask import Flask, request, jsonify
 from google.cloud import storage
 import os
 import datetime
-import logging
 from storage import *
 from processing import pixelateImage
 from flask_cors import CORS
-
+from firestore import isNewImage, setImage, getUser
 
 app = Flask(__name__)
 CORS(app)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./app/cloud-storage-key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./cloud-storage-key.json"
 
 
 @app.before_request
@@ -58,12 +57,25 @@ def processImage():
     """
     Processes the image into a form of art
     """
+    
     data = request.json
     inputFileName = data.get("inputFileName")
     outputFileName = f"processed-{inputFileName}"
+    imageId = inputFileName.split(".")[0]
 
     if not inputFileName:
         return "Error: Filename not found", 400
+
+    if not isNewImage(imageId):
+        deleteRawBucketImage(inputFileName)
+        return "Error: Image already processing or processed", 400
+    else:
+        setImage(imageId, {
+            "id": imageId,
+            "filename": inputFileName,
+            "status": "processing",
+            "user": getUser(imageId.split("-")[0])
+        })
 
     # download from bucket
     downloadRawImage(inputFileName)
@@ -83,12 +95,16 @@ def processImage():
 
     #delete uploaded raw bucket image
     deleteRawBucketImage(inputFileName)
-    print(f"INPUT FILE NAME: {inputFileName}")
-    print(f"OUTPUT FILE NAME: {outputFileName}")
     fileData = {
         "fileID": inputFileName.split(".")[0],
         "fileName": outputFileName
     }
+
+    setImage(imageId, {
+        'filename': outputFileName,
+        'status': 'processed'
+    })
+
     return jsonify(fileData), 200
 
 

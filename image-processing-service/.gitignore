@@ -2,5 +2,6 @@
 env
 app/__pycache__
 app/cloud-storage-key.json
+app/firestore-key.json
 processedImages
 rawImages

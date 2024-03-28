@@ -15,7 +15,7 @@ export default function NavLinks() {
 
     const handleClick = () => {
         // Only toggle the menu if the screen size is smaller than sm
-        if (window.innerWidth < 640) {
+        if (window.innerWidth < 768) {
             setShowMenu(!showMenu);
         }
     };

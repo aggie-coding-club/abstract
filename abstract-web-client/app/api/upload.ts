@@ -1,22 +1,19 @@
 import { User } from "firebase/auth";
-import { addImage } from "../firebase/firebase";
-import { RSCPathnameNormalizer } from "next/dist/server/future/normalizers/request/rsc";
 import { v4 as uuidv4 } from "uuid";
 
 export async function processImage(user: User | null, image: File) {
     const data = await uploadImage(user, image);
 
     try {
-            const response = await fetch("http://127.0.0.1:5000/process-image", {
+        const response = await fetch("http://127.0.0.1:5000/process-image", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         });
-        const {fileID, fileName} = await response.json();
-        addImage(fileName,fileID);
-        
+        const { fileID, fileName } = await response.json();
+        // addImage(fileName, fileID);
 
         return data.inputFileName;
     } catch (err) {
@@ -33,7 +30,7 @@ export async function processImage(user: User | null, image: File) {
  * @returns The json of the filename of the image in the cloud storage bucket
  */
 async function uploadImage(user: User | null, image: File) {
-    const inputFileName = `${user?.uid ? user.uid : ""}-${Date.now()}-${
+    const inputFileName = `${user?.uid ? user.uid : "null"}-${Date.now()}-${
         uuidv4().split("-")[0]
     }.${image.name.split(".").pop()}`; // USER ID - TIME IN SECONDS - RANDOM.EXTENSION
 
