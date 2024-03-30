@@ -47,46 +47,35 @@ export default function LoginModal() {
                     />
                 </div>
                 <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] gap-1 justify-center items-center flex-grow text-nowrap">
-                    {user && <p>Hi, {user?.displayName} 👋</p>}
-                    <>
+                    {user && (
+                        <p className="font-medium">
+                            Hi, {user?.displayName} 👋
+                        </p>
+                    )}
+                    <div className="flex justify-center items-center">
                         {user ? (
-                            <div
-                                className={` bg-no-repeat bg-bottom py-2 bg-clip-padding ${
-                                    pathname === "navLink.href"
-                                        ? "bg-underline-stroke"
-                                        : "bg-none"
-                                }`}
+                            <button
+                                className="border-[1px] border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
+                                onClick={() => {
+                                    handleDialog();
+                                    signOut();
+                                }}
                             >
-                                <button
-                                    className="mx-5 text-2xl"
-                                    onClick={() => {
-                                        handleDialog();
-                                        signOut();
-                                    }}
-                                >
-                                    Sign Out
-                                </button>
-                            </div>
+                                Sign Out
+                            </button>
                         ) : (
-                            <div
-                                className={` bg-no-repeat bg-bottom py-2 bg-clip-padding ${
-                                    pathname === "navLink.href"
-                                        ? "bg-underline-stroke"
-                                        : "bg-none"
-                                }`}
+                            <button
+                                className="flex justify-center items-center gap-2 border-[1px] border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
+                                onClick={() => {
+                                    handleDialog();
+                                    signInWithGoogle();
+                                }}
                             >
-                                <button
-                                    className="mx-5"
-                                    onClick={() => {
-                                        handleDialog();
-                                        signInWithGoogle();
-                                    }}
-                                >
-                                    Sign In
-                                </button>
-                            </div>
+                                <img src="./google.svg" />
+                                <p>Sign in with Google</p>
+                            </button>
                         )}
-                    </>
+                    </div>
                 </div>
             </div>
         </dialog>

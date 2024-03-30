@@ -28,7 +28,7 @@ export default function Navigation() {
                         abstract
                     </p>
                 </Link>
-                <NavLinks user={user}/>
+                <NavLinks user={user} />
             </nav>
             <AuthProvider>
                 <LoginModal />

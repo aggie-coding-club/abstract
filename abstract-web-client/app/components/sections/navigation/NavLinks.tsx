@@ -57,7 +57,7 @@ export default function NavLinks(props: any) {
             )}
             <div
                 className={`${showMenu ? "flex" : "hidden"} 
-                    md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-3 bg-white
+                    md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-4 md:gap-12 bg-white
             md:static md:flex-row md:justify-between md:items-center`}
             >
                 {navLinks.map((navLink, index) => (
@@ -66,7 +66,7 @@ export default function NavLinks(props: any) {
                             navLink.name === "Sign In" && props.user
                                 ? ""
                                 : "hover:bg-underline-stroke"
-                        } bg-no-repeat bg-bottom py-2 bg-clip-padding${
+                        } bg-no-repeat bg-bottom py-2 bg-clip-padding ${
                             pathname === navLink.href
                                 ? "bg-underline-stroke"
                                 : "bg-none"
@@ -75,12 +75,12 @@ export default function NavLinks(props: any) {
                     >
                         <Link
                             href={navLink.href}
-                            className="mx-5 text-2xl h-8 text-nowrap"
+                            className="text-2xl h-8 text-nowrap"
                             onClick={handleClick}
                         >
                             {navLink.name === "Sign In" && props.user ? (
                                 <img
-                                    className="rounded-full mx-5 text-2xl size-12"
+                                    className="rounded-full size-12"
                                     src={props.user.photoURL}
                                 />
                             ) : (
