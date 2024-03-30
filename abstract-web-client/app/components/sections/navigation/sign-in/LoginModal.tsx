@@ -33,7 +33,7 @@ export default function LoginModal() {
     return (
         <dialog
             ref={dialogRef}
-            className="fixed m-0 w-full max-w-full h-full max-h-full bg-black/50 backdrop-blur-sm outline-none" // make this the backdrop (make it cover the screen)
+            className="fixed m-0 w-full max-w-full h-full max-h-full bg-black/50 backdrop-blur-sm outline-none font-sans" // make this the backdrop (make it cover the screen)
         >
             <div className="fixed w-56 h-32 sm:w-60 sm:h-36 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white rounded-2xl">
                 <div className="flex justify-end m-2 items-center">
@@ -47,11 +47,11 @@ export default function LoginModal() {
                     />
                 </div>
                 <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] gap-1 justify-center items-center flex-grow text-nowrap">
-                    {user && <p>Hi, {user?.displayName}</p>}
+                    {user && <p>Hi, {user?.displayName} 👋</p>}
                     <>
                         {user ? (
                             <div
-                                className={`hover:bg-underline-stroke bg-no-repeat bg-bottom py-2 bg-clip-padding ${
+                                className={` bg-no-repeat bg-bottom py-2 bg-clip-padding ${
                                     pathname === "navLink.href"
                                         ? "bg-underline-stroke"
                                         : "bg-none"
@@ -68,21 +68,21 @@ export default function LoginModal() {
                                 </button>
                             </div>
                         ) : (
-                            <div //hover:bg-underline-stroke
-                                className={`h-20 content-center bg-no-repeat bg-bottom py-2 bg-clip-padding ${
+                            <div
+                                className={` bg-no-repeat bg-bottom py-2 bg-clip-padding ${
                                     pathname === "navLink.href"
                                         ? "bg-underline-stroke"
                                         : "bg-none"
                                 }`}
                             >
                                 <button
-                                    className="mx-5 h-auto size-40"
+                                    className="mx-5"
                                     onClick={() => {
                                         handleDialog();
                                         signInWithGoogle();
                                     }}
                                 >
-                                    <img src="./sign-in-button.svg"/>
+                                    Sign In
                                 </button>
                             </div>
                         )}

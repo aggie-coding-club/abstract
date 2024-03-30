@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { use, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 export type NavLink = {
@@ -9,12 +9,11 @@ export type NavLink = {
     href: string;
 };
 
-export default function NavLinks(props:any) {
-    console.log(props.user)
+export default function NavLinks(props: any) {
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const pathname = usePathname();
     const handleClick = () => {
-        // Only toggle the menu if the screen size is smaller than sm
+        // Only toggle the menu if the screen size is smaller than md
         if (window.innerWidth < 768) {
             setShowMenu(!showMenu);
         }
@@ -59,11 +58,15 @@ export default function NavLinks(props:any) {
             <div
                 className={`${showMenu ? "flex" : "hidden"} 
                     md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-3 bg-white
-            md:static md:flex-row md:justify-between md:items-center h-12`}
+            md:static md:flex-row md:justify-between md:items-center`}
             >
                 {navLinks.map((navLink, index) => (
                     <div
-                        className={`${navLink.name==="Sign In"&&props.user? "": "hover:bg-underline-stroke"} bg-no-repeat bg-bottom py-2 bg-clip-padding h-auto${
+                        className={`${
+                            navLink.name === "Sign In" && props.user
+                                ? ""
+                                : "hover:bg-underline-stroke"
+                        } bg-no-repeat bg-bottom py-2 bg-clip-padding${
                             pathname === navLink.href
                                 ? "bg-underline-stroke"
                                 : "bg-none"
@@ -75,7 +78,14 @@ export default function NavLinks(props:any) {
                             className="mx-5 text-2xl h-8 text-nowrap"
                             onClick={handleClick}
                         >
-                            {navLink.name==="Sign In"&&props.user? <img className="rounded-full mx-5 text-2xl h-auto size-12"src={props.user.photoURL}/>:navLink.name}
+                            {navLink.name === "Sign In" && props.user ? (
+                                <img
+                                    className="rounded-full mx-5 text-2xl size-12"
+                                    src={props.user.photoURL}
+                                />
+                            ) : (
+                                navLink.name
+                            )}
                         </Link>
                     </div>
                 ))}
