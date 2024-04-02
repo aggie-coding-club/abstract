@@ -36,7 +36,7 @@ export default function LoginModal() {
             className="fixed m-0 w-full max-w-full h-full max-h-full bg-black/50 backdrop-blur-sm outline-none font-sans" // make this the backdrop (make it cover the screen)
         >
             <div className="fixed w-56 h-32 sm:w-60 sm:h-36 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white rounded-2xl">
-                <div className="flex justify-end m-2 items-center">
+                <div className="flex justify-end m-3 items-center">
                     <Image
                         src="./x.svg"
                         width={12}
@@ -55,7 +55,7 @@ export default function LoginModal() {
                     <div className="flex justify-center items-center">
                         {user ? (
                             <button
-                                className="border-[1px] border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
+                                className="border-2 border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
                                 onClick={() => {
                                     handleDialog();
                                     signOut();
@@ -65,7 +65,7 @@ export default function LoginModal() {
                             </button>
                         ) : (
                             <button
-                                className="flex justify-center items-center gap-2 border-[1px] border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
+                                className="flex justify-center items-center gap-2 border-2 border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
                                 onClick={() => {
                                     handleDialog();
                                     signInWithGoogle();

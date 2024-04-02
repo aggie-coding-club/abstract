@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { User } from "firebase/auth";
 import { onAuthStateChangedHelper } from "@/app/firebase/auth";
-import LoginModal from "./sign-in/LoginModal";
+import LoginModal from "./LoginModal";
 import { AuthProvider } from "../../context/AuthContext";
 import NavLinks from "./NavLinks";
 
