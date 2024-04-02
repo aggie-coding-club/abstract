@@ -65,7 +65,7 @@ export default function LoginModal() {
                             </button>
                         ) : (
                             <button
-                                className="flex justify-center items-center gap-2 border-2 border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
+                                className="flex justify-center items-center gap-2 border-[1px] border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
                                 onClick={() => {
                                     handleDialog();
                                     signInWithGoogle();
