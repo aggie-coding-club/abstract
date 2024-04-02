@@ -16,6 +16,7 @@ const config: Config = {
                 "brush-stroke-1": "url('./static/strokes/brush-stroke-1.svg')",
                 "underline-stroke":
                     "url('./static/strokes/underline-stroke.svg')",
+                "brush-stroke-2": "url('./static/strokes/brush-stroke-2.svg')",
             },
         },
     },

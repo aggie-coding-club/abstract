@@ -12,8 +12,6 @@ export async function processImage(user: User | null, image: File) {
             },
             body: JSON.stringify(data),
         });
-        const { fileID, fileName } = await response.json();
-        // addImage(fileName, fileID);
 
         return data.inputFileName;
     } catch (err) {

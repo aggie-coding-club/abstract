@@ -1,5 +1,5 @@
 import { AuthProvider } from "../components/context/AuthContext";
-import Upload from "./upload/upload";
+import Upload from "./upload";
 
 export default function Discover() {
     return (
