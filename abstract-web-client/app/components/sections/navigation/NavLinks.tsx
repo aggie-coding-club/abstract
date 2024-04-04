@@ -3,13 +3,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
 
 export type NavLink = {
     name: string;
     href: string;
 };
 
-export default function NavLinks(props: any) {
+export default function NavLinks() {
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const pathname = usePathname();
     const handleClick = () => {
@@ -18,6 +19,9 @@ export default function NavLinks(props: any) {
             setShowMenu(!showMenu);
         }
     };
+
+    const user = useAuth();
+    console.log(user);
 
     const navLinks: NavLink[] = [
         {
@@ -63,7 +67,7 @@ export default function NavLinks(props: any) {
                 {navLinks.map((navLink, index) => (
                     <div
                         className={`${
-                            navLink.name === "Sign In" && props.user
+                            navLink.name === "Sign In" && user
                                 ? ""
                                 : "hover:bg-underline-stroke"
                         } bg-no-repeat bg-bottom py-2 bg-clip-padding ${
@@ -78,10 +82,13 @@ export default function NavLinks(props: any) {
                             className="text-2xl h-8 text-nowrap"
                             onClick={handleClick}
                         >
-                            {navLink.name === "Sign In" && props.user ? (
+                            {navLink.name === "Sign In" &&
+                            user &&
+                            user.photoURL ? (
                                 <img
                                     className="rounded-full size-12"
-                                    src={props.user.photoURL}
+                                    src={user.photoURL}
+                                    alt="Profile Picture"
                                 />
                             ) : (
                                 navLink.name

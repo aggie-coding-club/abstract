@@ -1,22 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import { User } from "firebase/auth";
-import { onAuthStateChangedHelper } from "@/app/firebase/auth";
 import LoginModal from "./LoginModal";
 import { AuthProvider } from "../../context/AuthContext";
 import NavLinks from "./NavLinks";
 
 export default function Navigation() {
-    const [user, setUser] = useState<User | null>(null);
-    useEffect(() => {
-        const unsubscribe = onAuthStateChangedHelper((user) => {
-            setUser(user);
-        });
-
-        return () => unsubscribe();
-    }, [user]);
-
     return (
         <>
             <nav className="min-w-[320px] bg-transparent flex justify-between items-center px-3 py-2 md:px-20 md:py-2">
@@ -28,7 +17,9 @@ export default function Navigation() {
                         abstract
                     </p>
                 </Link>
-                <NavLinks user={user} />
+                <AuthProvider>
+                    <NavLinks />
+                </AuthProvider>
             </nav>
             <AuthProvider>
                 <LoginModal />

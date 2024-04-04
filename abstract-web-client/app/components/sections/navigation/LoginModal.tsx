@@ -48,14 +48,14 @@ export default function LoginModal() {
                 </div>
                 <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] gap-1 justify-center items-center flex-grow text-nowrap">
                     {user && (
-                        <p className="font-medium">
+                        <p className="font-medium text-lg">
                             Hi, {user?.displayName} 👋
                         </p>
                     )}
                     <div className="flex justify-center items-center">
                         {user ? (
                             <button
-                                className="border-2 border-black py-2 px-4 rounded-md font-medium bg-black text-white hover:bg-white hover:text-black"
+                                className="border-2 border-black py-1 px-4 rounded-md font-medium bg-black text-white hover:bg-white hover:text-black text-base"
                                 onClick={() => {
                                     handleDialog();
                                     signOut();
