@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <div className="bg-black text-white text-sm text-center flex flex-col-reverse justify-center items-center gap-1 py-2 font-thin tracking-widest md:flex md:flex-row md:justify-between px-20">
+        <div className="bg-black text-white text-sm text-center flex flex-col-reverse justify-center items-center gap-1 py-2 font-thin tracking-widest md:flex md:flex-row md:justify-between px-20 min-w-[320px]">
             <div className="text-nowrap">made with 🤍</div>
             <div className="md:absolute md:left-0 md:right-0 md:mx-auto text-nowrap">
                 Copyright &copy; abstract
