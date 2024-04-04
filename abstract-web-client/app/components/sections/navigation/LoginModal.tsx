@@ -55,7 +55,7 @@ export default function LoginModal() {
                     <div className="flex justify-center items-center">
                         {user ? (
                             <button
-                                className="border-2 border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
+                                className="border-2 border-black py-2 px-4 rounded-md font-medium bg-black text-white hover:bg-white hover:text-black"
                                 onClick={() => {
                                     handleDialog();
                                     signOut();
@@ -65,7 +65,7 @@ export default function LoginModal() {
                             </button>
                         ) : (
                             <button
-                                className="flex justify-center items-center gap-2 border-[1px] border-black py-2 px-4 rounded-md font-medium hover:bg-black hover:text-white"
+                                className="flex justify-center items-center gap-2 border-[1px] border-black py-2 px-4 rounded-md font-medium bg-black text-white hover:bg-white hover:text-black"
                                 onClick={() => {
                                     handleDialog();
                                     signInWithGoogle();
