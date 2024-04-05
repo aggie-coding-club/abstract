@@ -89,5 +89,3 @@ def asciiArtImage(image_path, high_quality=False):
     # return ascii_image_png
 
 
-asciiArtImage(
-    "/home/adeeb/workspace/abstract/image-processing-service/app/rawImages/zach.jpg")
