@@ -8,8 +8,8 @@ export default function Footer() {
             <div className="md:absolute md:left-0 md:right-0 md:mx-auto text-nowrap">
                 Copyright &copy; abstract
             </div>
-            <div className="flex justify-center items-center gap-x-2.5">
-                <Link href={"https://github.com/aggie-coding-club/abstract"}>
+            <div className="flex justify-center items-center gap-x-2.5 z-10" >
+                <Link href={"https://github.com/aggie-coding-club/abstract"} >
                     <Image
                         src="./github_symbol.svg.svg"
                         width={18}
@@ -22,7 +22,7 @@ export default function Footer() {
                     <Image
                         src="./discord_symbol.svg"
                         width={18}
-                        height={14}
+                        height={18}
                         alt="discord"
                         className="md:w-[24px] md:h-[18.66px]"
                     />
