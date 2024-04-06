@@ -35,27 +35,27 @@ export default function LoginModal() {
             ref={dialogRef}
             className="fixed m-0 w-full max-w-full h-full max-h-full bg-black/50 backdrop-blur-sm outline-none font-sans" // make this the backdrop (make it cover the screen)
         >
-            <div className="fixed w-56 h-32 sm:w-60 sm:h-36 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white rounded-2xl">
+            <div className="fixed w-56 h-32 sm:w-60 sm:h-36 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white dark:bg-slate-800 rounded-2xl">
                 <div className="flex justify-end m-3 items-center">
                     <Image
                         src="./x.svg"
                         width={12}
                         height={12}
                         alt="X"
-                        className="cursor-pointer flex-shrink-0 sm:w-4 sm:h-4"
+                        className="cursor-pointer flex-shrink-0 sm:w-4 sm:h-4 dark:invert"
                         onClick={handleDialog}
                     />
                 </div>
                 <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] gap-1 justify-center items-center flex-grow text-nowrap">
                     {user && (
-                        <p className="font-medium text-lg">
+                        <p className="font-medium text-lg dark:text-white">
                             Hi, {user?.displayName} 👋
                         </p>
                     )}
                     <div className="flex justify-center items-center">
                         {user ? (
                             <button
-                                className="border-2 border-black py-1 px-4 rounded-md font-medium bg-black text-white hover:bg-white hover:text-black text-base"
+                                className="border-2 border-black dark:border-white py-1 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white text-base"
                                 onClick={() => {
                                     handleDialog();
                                     signOut();
@@ -65,13 +65,13 @@ export default function LoginModal() {
                             </button>
                         ) : (
                             <button
-                                className="flex justify-center items-center gap-2 border-[1px] border-black py-2 px-4 rounded-md font-medium bg-black text-white hover:bg-white hover:text-black"
+                                className="flex justify-center items-center gap-2 border-[1px] border-black dark:border-white py-2 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black  hover:text-black dark:hover:text-white "
                                 onClick={() => {
                                     handleDialog();
                                     signInWithGoogle();
                                 }}
                             >
-                                <img src="./google.svg" />
+                                <img src="./google.svg"/>
                                 <p>Sign in with Google</p>
                             </button>
                         )}
