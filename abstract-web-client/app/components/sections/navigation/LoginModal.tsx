@@ -48,9 +48,19 @@ export default function LoginModal() {
                 </div>
                 <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] gap-1 justify-center items-center flex-grow text-nowrap">
                     {user && (
+                        <div className="flex flex-col items-between my-1">
                         <p className="font-medium text-lg dark:text-white">
                             Hi, {user?.displayName} 👋
                         </p>
+                        <button
+                        className="border-2 border-black dark:border-white py-1 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white text-base"
+                        onClick={() => {
+                            router.push("/history")
+                        }}
+                        >
+                            History
+                        </button>
+                        </div>
                     )}
                     <div className="flex justify-center items-center">
                         {user ? (
