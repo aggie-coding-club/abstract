@@ -23,15 +23,13 @@ export default function History() {
     }
     return (
         <div className="flex flex-col justify-center place-items-center">
-            <h1>Art History</h1>
+            <h1 className="h-12 text-4xl dark:text-white">Art History</h1>
         <div className="flex flex-row flex-wrap justify-center">    
            {images.map((image,index)=>(
-            <div className="mx-2 my-2"key={index}>
+            <div className="mx-2 my-2 size-56 bg-black flex flex-col justify-center place-items-center rounded-md bg-gradient-to-b from-slate-300 via-blue-500 to-slate-300 dark:bg-gradient-to-b dark:from-orange-400 dark:via-yellow-400 dark:to-orange-400" key={index}>
                 <img 
-                className="border-4 border-slate-300 dark:border-orange-400 rounded-md"
+                className="size-52 object-scale-down"
                 src={image}
-                height="200"
-                width="200"
                 alt={`Saved Picture ${index+1}`}
                 />
             </div>

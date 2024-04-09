@@ -89,6 +89,7 @@ export default function NavLinks() {
                                     className="rounded-full size-12"
                                     src={user.photoURL}
                                     alt="Profile Picture"
+                                    decoding="async"
                                 />
                             ) : (
                                 navLink.name
