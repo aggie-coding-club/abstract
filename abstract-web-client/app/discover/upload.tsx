@@ -27,7 +27,7 @@ export default function Upload() {
         <>
             <label
                 htmlFor="image-upload"
-                className="bg-white border-black border-2 text-black p-2 rounded-md cursor-pointer"
+                className="bg-white dark:bg-black border-black dark:border-white border-2 text-black dark:text-white p-2 rounded-md cursor-pointer"
             >
                 Upload image
             </label>

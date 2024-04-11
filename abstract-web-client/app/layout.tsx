@@ -19,7 +19,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={FingerPaint.className}
+                className= {`${FingerPaint.className} dark:bg-black`}
                 style={{
                     display: "flex",
                     flexDirection: "column",

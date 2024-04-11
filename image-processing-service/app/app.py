@@ -81,7 +81,7 @@ def processImage():
     downloadRawImage(inputFileName)
     
     # convert to art
-    pixelated_image = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}", 100)
+    pixelated_image = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}", 30) #default: 100
 
     # save art
     downloadProcessedImage(outputFileName, pixelated_image)
