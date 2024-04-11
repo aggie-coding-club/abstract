@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Footer() {
     return (
@@ -8,8 +7,13 @@ export default function Footer() {
             <div className="md:absolute md:left-0 md:right-0 md:mx-auto text-nowrap">
                 Copyright &copy; abstract
             </div>
-            <div className="flex justify-center items-center gap-x-2.5">
-                <Link href={"https://github.com/aggie-coding-club/abstract"}>
+            <div className="flex justify-center items-center gap-x-2.5 z-10">
+                <a
+                    href={"https://github.com/aggie-coding-club/abstract"}
+                    className="md:cursor-pointer"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
                     <Image
                         src="./github_symbol.svg.svg"
                         width={18}
@@ -17,8 +21,13 @@ export default function Footer() {
                         alt="github"
                         className="md:w-[24px] md:h-[24px]"
                     />
-                </Link>
-                <Link href={"https://discord.com/invite/navrfhAYYV"}>
+                </a>
+                <a
+                    href={"https://discord.com/invite/navrfhAYYV"}
+                    className="md:cursor-pointer"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
                     <Image
                         src="./discord_symbol.svg"
                         width={18}
@@ -26,7 +35,7 @@ export default function Footer() {
                         alt="discord"
                         className="md:w-[24px] md:h-[18.66px]"
                     />
-                </Link>
+                </a>
             </div>
         </div>
     );
