@@ -46,7 +46,7 @@ export default function NavLinks() {
                     width={24}
                     height={24}
                     alt="X"
-                    className="md:hidden z-20 flex-shrink-0 cursor-pointer"
+                    className="md:hidden z-20 flex-shrink-0 cursor-pointer dark:invert"
                     onClick={() => setShowMenu(!showMenu)}
                 />
             ) : (
@@ -55,13 +55,13 @@ export default function NavLinks() {
                     width={24}
                     height={24}
                     alt="Burger Menu"
-                    className="md:hidden flex-shrink-0 cursor-pointer"
+                    className="md:hidden flex-shrink-0 cursor-pointer dark:invert"
                     onClick={() => setShowMenu(!showMenu)}
                 />
             )}
             <div
                 className={`${showMenu ? "flex" : "hidden"} 
-                    md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-4 md:gap-12 bg-white
+                    md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-4 md:gap-12 bg-white dark:bg-black
             md:static md:flex-row md:justify-between md:items-center`}
             >
                 {navLinks.map((navLink, index) => (
@@ -69,7 +69,7 @@ export default function NavLinks() {
                         className={`${
                             navLink.name === "Sign In" && user
                                 ? ""
-                                : "hover:bg-underline-stroke"
+                                : "hover:bg-underline-stroke dark:invert"
                         } bg-no-repeat bg-bottom py-2 bg-clip-padding ${
                             pathname === navLink.href
                                 ? "bg-underline-stroke"
@@ -89,6 +89,7 @@ export default function NavLinks() {
                                     className="rounded-full size-12"
                                     src={user.photoURL}
                                     alt="Profile Picture"
+                                    decoding="async"
                                 />
                             ) : (
                                 navLink.name
