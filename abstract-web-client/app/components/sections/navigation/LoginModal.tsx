@@ -4,8 +4,9 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { AuthProvider, useAuth } from "@/app/components/context/AuthContext";
+import { useAuth } from "@/app/components/context/AuthContext";
 import { signInWithGoogle, signOut } from "@/app/firebase/auth";
+import Link from "next/link";
 
 export default function LoginModal() {
     const searchParams = useSearchParams();
@@ -33,39 +34,39 @@ export default function LoginModal() {
     return (
         <dialog
             ref={dialogRef}
-            className="fixed m-0 w-full max-w-full h-full max-h-full bg-black/50 backdrop-blur-sm outline-none font-sans" // make this the backdrop (make it cover the screen)
+            className="fixed m-0 w-full max-w-full h-full max-h-full bg-black/50 backdrop-blur-sm outline-none font-sans"
         >
-            <div className="fixed w-56 h-32 sm:w-60 sm:h-36 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white dark:bg-slate-800 rounded-2xl">
-                <div className="flex justify-end m-3 items-center">
-                    <Image
-                        src="./x.svg"
-                        width={12}
-                        height={12}
-                        alt="X"
-                        className="cursor-pointer flex-shrink-0 sm:w-4 sm:h-4 dark:invert"
-                        onClick={handleDialog}
-                    />
+            <div className="fixed w-56 h-36 md:w-60 md:h-40 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white dark:bg-slate-800 rounded-2xl">
+                <div className="flex justify-end m-1 items-center">
+                    <div className="rounded-full hover:bg-black/10 p-2">
+                        <Image
+                            src="./x.svg"
+                            width={12}
+                            height={12}
+                            alt="X"
+                            className="cursor-pointer flex-shrink-0 sm:w-4 sm:h-4 dark:invert"
+                            onClick={handleDialog}
+                        />
+                    </div>
                 </div>
-                <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] gap-1 justify-center items-center flex-grow text-nowrap">
+                <div className="gap-1 justify-center items-center flex-grow text-nowrap px-3">
                     {user && (
                         <div className="flex flex-col items-between my-1">
-                        <p className="font-medium text-lg dark:text-white">
-                            Hi, {user?.displayName} 👋
-                        </p>
-                        <button
-                        className="border-2 border-black dark:border-white py-1 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white text-base"
-                        onClick={() => {
-                            router.push("/history")
-                        }}
-                        >
-                            History
-                        </button>
+                            <p className="font-medium text-lg text-center dark:text-white">
+                                Hi, {user?.displayName} 👋
+                            </p>
+                            <Link
+                                className="flex justify-center items-center gap-2 border-[1px] border-black dark:border-white py-1 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black  hover:text-black dark:hover:text-white mt-2 outline-none"
+                                href="/history"
+                            >
+                                History
+                            </Link>
                         </div>
                     )}
                     <div className="flex justify-center items-center">
                         {user ? (
                             <button
-                                className="border-2 border-black dark:border-white py-1 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white text-base"
+                                className="flex justify-center items-center gap-2 border-[1px] border-black dark:border-white py-1 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black  hover:text-black dark:hover:text-white w-full outline-none"
                                 onClick={() => {
                                     handleDialog();
                                     signOut();
@@ -75,13 +76,13 @@ export default function LoginModal() {
                             </button>
                         ) : (
                             <button
-                                className="flex justify-center items-center gap-2 border-[1px] border-black dark:border-white py-2 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black  hover:text-black dark:hover:text-white "
+                                className="flex justify-center items-center gap-2 border-[1px] border-black dark:border-white py-2 px-4 rounded-md font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black  hover:text-black dark:hover:text-whit outline-none"
                                 onClick={() => {
                                     handleDialog();
                                     signInWithGoogle();
                                 }}
                             >
-                                <img src="./google.svg"/>
+                                <img src="./google.svg" />
                                 <p>Sign in with Google</p>
                             </button>
                         )}

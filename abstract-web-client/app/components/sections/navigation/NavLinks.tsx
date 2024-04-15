@@ -61,7 +61,7 @@ export default function NavLinks() {
             )}
             <div
                 className={`${showMenu ? "flex" : "hidden"} 
-                    md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-4 md:gap-12 bg-white dark:bg-black
+                    md:flex absolute inset-0 z-10 flex-col justify-center items-center gap-4 md:gap-8 bg-white dark:bg-black
             md:static md:flex-row md:justify-between md:items-center`}
             >
                 {navLinks.map((navLink, index) => (

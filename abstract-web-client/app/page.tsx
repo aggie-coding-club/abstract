@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
-    function toggleDarkMode(){
-        alert("dark mode toggled: ")
-        document.documentElement.classList.toggle('dark');
+    function toggleDarkMode() {
+        alert("dark mode toggled: ");
+        document.documentElement.classList.toggle("dark");
     }
     return (
         <main className="relative min-w-[320px] w-screen h-full flex flex-col flex-1 justify-start items-center dark:bg-black">
