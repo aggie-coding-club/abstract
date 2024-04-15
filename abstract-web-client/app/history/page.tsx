@@ -1,19 +1,11 @@
 "use client";
 import { useAuth } from "../components/context/AuthContext";
-import React, { useEffect } from "react";
+import React from "react";
 import { getImages } from "../firebase/firebase";
-import { useRouter } from "next/navigation";
 
 export default function History() {
-    const router = useRouter();
     const user = useAuth();
     const [images, setImages] = React.useState(Array<string>);
-
-    useEffect(() => {
-        if (!user) {
-            router.push("/");
-        }
-    }, [user]);
 
     if (user) {
         if (images.length === 0) {
@@ -43,6 +35,23 @@ export default function History() {
                             />
                         </div>
                     ))}
+                </div>
+            </div>
+        );
+    } else {
+        return (
+            <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+                <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                    <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                        401 Unauthorized
+                    </h2>
+                </div>
+                <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                    <div className="text-center">
+                        <p className="text-sm leading-5 text-black ">
+                            You are not authorized to access this resource.
+                        </p>
+                    </div>
                 </div>
             </div>
         );

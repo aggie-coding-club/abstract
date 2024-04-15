@@ -36,7 +36,11 @@ export default function LoginModal() {
             ref={dialogRef}
             className="fixed m-0 w-full max-w-full h-full max-h-full bg-black/50 backdrop-blur-sm outline-none font-sans"
         >
-            <div className="fixed w-56 h-36 md:w-60 md:h-40 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white dark:bg-slate-800 rounded-2xl">
+            <div
+                className={`fixed ${
+                    user ? "h-40" : "h-28"
+                } w-56  md:w-60  top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex flex-col bg-white dark:bg-slate-800 rounded-2xl`}
+            >
                 <div className="flex justify-end m-1 items-center">
                     <div className="rounded-full hover:bg-black/10 p-2">
                         <Image
@@ -49,7 +53,7 @@ export default function LoginModal() {
                         />
                     </div>
                 </div>
-                <div className="gap-1 justify-center items-center flex-grow text-nowrap px-3">
+                <div className="text-nowrap px-3">
                     {user && (
                         <div className="flex flex-col items-between my-1">
                             <p className="font-medium text-lg text-center dark:text-white">
