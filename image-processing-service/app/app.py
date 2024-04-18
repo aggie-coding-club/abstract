@@ -3,7 +3,7 @@ from google.cloud import storage
 import os
 import datetime
 from storage import *
-from processing import pixelateImage
+from processing import pixelateImage, grayscaleImage, invertImage, asciiArtImage
 from flask_cors import CORS
 from firestore import isNewImage, setImage, getUser
 
@@ -60,6 +60,8 @@ def processImage():
     
     data = request.json
     inputFileName = data.get("inputFileName")
+    imageType = data.get('imageType')
+    #print(imageType)
     outputFileName = f"processed-{inputFileName}"
     imageId = inputFileName.split(".")[0]
 
@@ -81,10 +83,18 @@ def processImage():
     downloadRawImage(inputFileName)
     
     # convert to art
-    pixelated_image = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}", 30) #default: 100
-
+    if(imageType=="P"):
+        userImage = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",50) 
+    elif(imageType=="G"):
+        userImage = grayscaleImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",True)
+    elif(imageType=="I"):
+        userImage = invertImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+    elif(imageType=="A"):
+        userImage = asciiArtImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+    else:
+        return "Error: Image Type Not Available", 400
     # save art
-    downloadProcessedImage(outputFileName, pixelated_image)
+    downloadProcessedImage(outputFileName, userImage)
 
     # upload to processed bucket
     uploadProcessedImage(outputFileName)
