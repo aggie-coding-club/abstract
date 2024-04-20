@@ -1,6 +1,4 @@
 .venv/
-env
 app/__pycache__
-app/firebase-admin-key.json
 processedImages
 rawImages
