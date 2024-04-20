@@ -9,7 +9,7 @@ from firestore import isNewImage, setImage, getUser
 
 app = Flask(__name__)
 CORS(app)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./cloud-storage-key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "app/firebase-admin-key.json"
 
 
 @app.before_request
@@ -57,26 +57,53 @@ def processImage():
     """
     Processes the image into a form of art
     """
-    
-    data = request.json
-    inputFileName = data.get("inputFileName")
-    imageType = data.get('imageType')
-    #print(imageType)
-    outputFileName = f"processed-{inputFileName}"
-    imageId = inputFileName.split(".")[0]
 
-    if not inputFileName:
-        return "Error: Filename not found", 400
+    try:
+        data = request.json
+        inputFileName = data.get("inputFileName")
+        outputFileName = f"processed-{inputFileName}"
+        imageId = inputFileName.split(".")[0]
 
-    if not isNewImage(imageId):
+        if not inputFileName:
+            return "Error: Filename not found", 400
+
+        if not isNewImage(imageId):
+            deleteRawBucketImage(inputFileName)
+            return "Error: Image already processing or processed", 400
+        else:
+            setImage(imageId, {
+                "id": imageId,
+                "filename": inputFileName,
+                "status": "processing",
+                "user": getUser(imageId.split("-")[0])
+            })
+
+        # download from bucket
+        downloadRawImage(inputFileName)
+        
+        # convert to art
+        pixelated_image = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}", 30) #default: 100
+
+        # save art
+        downloadProcessedImage(outputFileName, pixelated_image)
+
+        # upload to processed bucket
+        uploadProcessedImage(outputFileName)
+
+        # delete locally
+        deleteRawImage(inputFileName)
+        deleteProcessedImage(outputFileName)
+
+        #delete uploaded raw bucket image
         deleteRawBucketImage(inputFileName)
-        return "Error: Image already processing or processed", 400
-    else:
+        fileData = {
+            "fileID": inputFileName.split(".")[0],
+            "fileName": outputFileName
+        }
+
         setImage(imageId, {
-            "id": imageId,
-            "filename": inputFileName,
-            "status": "processing",
-            "user": getUser(imageId.split("-")[0])
+            'filename': outputFileName,
+            'status': 'processed'
         })
 
     # download from bucket
@@ -114,9 +141,15 @@ def processImage():
         'filename': outputFileName,
         'status': 'processed'
     })
+    except:
+        deleteImage(imageId)
+        deleteRawImage(inputFileName)
+        deleteProcessedImage(outputFileName)
+        deleteRawBucketImage(inputFileName)
+        return "Error processing image", 500
 
     return jsonify(fileData), 200
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)

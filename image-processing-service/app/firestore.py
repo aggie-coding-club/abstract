@@ -1,13 +1,9 @@
-from firebase_admin import firestore
-from firebase_admin import credentials
-import firebase_admin
-
-
-cred = credentials.Certificate("./firestore-key.json")
-
-app = firebase_admin.initialize_app(cred)
+from google.cloud import firestore
+import os
 
 db = firestore.Client()
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "app/firebase-admin-key.json"
+
 
 IMAGE_COLLECTION = "images"
 USER_COLLECTION = "users"
@@ -23,6 +19,9 @@ def isNewImage(imageId):
 
 def setImage(imageId, imageDict):
     return db.collection(IMAGE_COLLECTION).document(imageId).set(imageDict, merge=True)
+
+def deleteImage(imageId):
+    return db.collection(IMAGE_COLLECTION).document(imageId).delete()
 
 def getUser(userId):
     if userId == "null":

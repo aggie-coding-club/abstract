@@ -8,9 +8,9 @@ export default function Home() {
         document.documentElement.classList.toggle("dark");
     }
     return (
-        <main className="relative min-w-[320px] w-screen h-full flex flex-col flex-1 justify-start items-center dark:bg-black">
+        <main className="relative min-w-[320px] w-screen min-h-[86.5vh] flex flex-col flex-1 justify-start items-center dark:bg-black">
             <div className="flex flex-col justify-center items-center -space-y-5 md:space-y-10">
-                <div className="flex justify-center items-center bg-brush-stroke-2 bg-no-repeat bg-contain bg-center w-80  h-36 md:w-[40rem] mt-28">
+                <div className="flex justify-center items-center bg-brush-stroke-2 bg-no-repeat bg-contain bg-center w-80  h-36 md:w-[40rem] mt-32">
                     <p className="text-[1.65rem] md:text-[3rem] tracking-[0.1em] text-nowrap -translate-y-2 translate-x-2 dark:text-white">
                         Unlock your view
                     </p>
@@ -22,7 +22,6 @@ export default function Home() {
                     Get Started
                 </Link>
             </div>
-            <div className="h-60"></div> {/* Placeholder div */}
             <div className="w-full flex justify-between items-center absolute bottom-0 md:px-20">
                 <img
                     src="./left-flower.svg"

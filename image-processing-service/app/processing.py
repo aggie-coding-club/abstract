@@ -2,7 +2,6 @@ from PIL import Image, ImageOps, ImageDraw, ImageFont
 import numpy as np
 import cv2
 
-
 def pixelateImage(image_path, pixel_size):
     '''
     Pixelates an image

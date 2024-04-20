@@ -22,6 +22,7 @@ export default function Upload() {
         }
     }
 
+
     async function handleUpload(event: React.FormEvent){
         console.log(document.getElementById("image-type-select"))
         event.preventDefault();
