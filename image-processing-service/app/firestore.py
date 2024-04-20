@@ -20,7 +20,7 @@ def isNewImage(imageId):
 def setImage(imageId, imageDict):
     return db.collection(IMAGE_COLLECTION).document(imageId).set(imageDict, merge=True)
 
-def deleteImage(imageId):
+def deleteImageFromDb(imageId):
     return db.collection(IMAGE_COLLECTION).document(imageId).delete()
 
 def getUser(userId):

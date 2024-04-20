@@ -5,7 +5,7 @@ import datetime
 from storage import *
 from processing import pixelateImage, grayscaleImage, invertImage, asciiArtImage
 from flask_cors import CORS
-from firestore import isNewImage, setImage, getUser
+from firestore import isNewImage, setImage, getUser, deleteImageFromDb
 
 app = Flask(__name__)
 CORS(app)
@@ -63,6 +63,7 @@ def processImage():
         inputFileName = data.get("inputFileName")
         outputFileName = f"processed-{inputFileName}"
         imageId = inputFileName.split(".")[0]
+        imageType = data.get("imageType")
 
         if not inputFileName:
             return "Error: Filename not found", 400
@@ -106,46 +107,43 @@ def processImage():
             'status': 'processed'
         })
 
-    # download from bucket
-    downloadRawImage(inputFileName)
-    
-    # convert to art
-    if(imageType=="P"):
-        userImage = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",50) 
-    elif(imageType=="G"):
-        userImage = grayscaleImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",True)
-    elif(imageType=="I"):
-        userImage = invertImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
-    elif(imageType=="A"):
-        userImage = asciiArtImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
-    else:
-        return "Error: Image Type Not Available", 400
-    # save art
-    downloadProcessedImage(outputFileName, userImage)
+        # download from bucket
+        downloadRawImage(inputFileName)
+        
+        # convert to art
+        if(imageType=="P"):
+            userImage = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",50) 
+        elif(imageType=="G"):
+            userImage = grayscaleImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",True)
+        elif(imageType=="I"):
+            userImage = invertImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+        elif(imageType=="A"):
+            userImage = asciiArtImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+        else:
+            return "Error: Image Type Not Available", 400
+        # save art
+        downloadProcessedImage(outputFileName, userImage)
 
-    # upload to processed bucket
-    uploadProcessedImage(outputFileName)
+        # upload to processed bucket
+        uploadProcessedImage(outputFileName)
 
-    # delete locally
-    deleteRawImage(inputFileName)
-    deleteProcessedImage(outputFileName)
-
-    #delete uploaded raw bucket image
-    deleteRawBucketImage(inputFileName)
-    fileData = {
-        "fileID": inputFileName.split(".")[0],
-        "fileName": outputFileName
-    }
-
-    setImage(imageId, {
-        'filename': outputFileName,
-        'status': 'processed'
-    })
-    except:
-        deleteImage(imageId)
+        # delete locally
         deleteRawImage(inputFileName)
         deleteProcessedImage(outputFileName)
-        deleteRawBucketImage(inputFileName)
+
+        setImage(imageId, {
+            'filename': outputFileName,
+            'status': 'processed'
+        })
+    except:
+        try:
+            deleteImageFromDb(imageId)
+            deleteImage(imageId)
+            deleteRawImage(inputFileName)
+            deleteProcessedImage(outputFileName)
+            deleteRawBucketImage(inputFileName)
+        except:
+            pass
         return "Error processing image", 500
 
     return jsonify(fileData), 200
