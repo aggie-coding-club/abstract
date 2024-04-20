@@ -3,7 +3,7 @@ from google.cloud import storage
 import os
 import datetime
 from storage import *
-from processing import pixelateImage
+from processing import pixelateImage, grayscaleImage, invertImage, asciiArtImage
 from flask_cors import CORS
 from firestore import isNewImage, setImage, getUser
 
@@ -57,6 +57,7 @@ def processImage():
     """
     Processes the image into a form of art
     """
+
     try:
         data = request.json
         inputFileName = data.get("inputFileName")
@@ -105,6 +106,41 @@ def processImage():
             'status': 'processed'
         })
 
+    # download from bucket
+    downloadRawImage(inputFileName)
+    
+    # convert to art
+    if(imageType=="P"):
+        userImage = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",50) 
+    elif(imageType=="G"):
+        userImage = grayscaleImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",True)
+    elif(imageType=="I"):
+        userImage = invertImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+    elif(imageType=="A"):
+        userImage = asciiArtImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+    else:
+        return "Error: Image Type Not Available", 400
+    # save art
+    downloadProcessedImage(outputFileName, userImage)
+
+    # upload to processed bucket
+    uploadProcessedImage(outputFileName)
+
+    # delete locally
+    deleteRawImage(inputFileName)
+    deleteProcessedImage(outputFileName)
+
+    #delete uploaded raw bucket image
+    deleteRawBucketImage(inputFileName)
+    fileData = {
+        "fileID": inputFileName.split(".")[0],
+        "fileName": outputFileName
+    }
+
+    setImage(imageId, {
+        'filename': outputFileName,
+        'status': 'processed'
+    })
     except:
         deleteImage(imageId)
         deleteRawImage(inputFileName)

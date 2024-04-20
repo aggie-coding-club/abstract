@@ -1,9 +1,8 @@
 import { User } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 
-export async function processImage(user: User | null, image: File) {
-    const data = await uploadImage(user, image);
-
+export async function processImage(user: User | null, image: File, imageType:string) {
+    const data = await uploadImage(user, image, imageType);
     try {
         const response = await fetch("http://127.0.0.1:8080/process-image", {
             method: "POST",
@@ -27,13 +26,14 @@ export async function processImage(user: User | null, image: File) {
  * @param image - The image the user is uploading
  * @returns The json of the filename of the image in the cloud storage bucket
  */
-async function uploadImage(user: User | null, image: File) {
+async function uploadImage(user: User | null, image: File, imageType: string) {
     const inputFileName = `${user?.uid ? user.uid : "null"}-${Date.now()}-${
         uuidv4().split("-")[0]
     }.${image.name.split(".").pop()}`; // USER ID - TIME IN SECONDS - RANDOM.EXTENSION
 
     const data = {
         inputFileName: inputFileName,
+        imageType: imageType,
     };
 
     try {

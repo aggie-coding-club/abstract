@@ -19,11 +19,15 @@ def pixelateImage(image_path, pixel_size):
     return pixel_art
 
 
-def grayscaleImage(image):
+def grayscaleImage(image_path, usingPath=False):
     '''
     Grayscales an image
     '''
-    gray_image = ImageOps.grayscale(image)
+    if(usingPath):
+        image = Image.open(image_path)
+        gray_image = ImageOps.grayscale(image)
+    else:
+        gray_image = ImageOps.grayscale(image_path)
 
     return gray_image
 
@@ -33,9 +37,20 @@ def invertImage(image_path):
     Negates the image
     '''
     image = Image.open(image_path)
-    inverted_image = ImageOps.invert(image)
+    # inverted_image = ImageOps.invert(image)
 
-    return inverted_image
+    # return inverted_image
+    if image.mode in {'P', 'PA'}:
+        pmode, pal = image.palette.getdata()
+        pal = Image.frombytes(pmode, (len(pal) // len(pmode), 1), pal)
+        image = image.copy()
+        image.palette.palette = ImageOps.invert(pal).tobytes()
+        return image
+    elif image.mode in {'LA', 'La', 'RGBA', 'RGBa', 'RGBX'}:
+        return image.point([*range(255, -1, -1)] * (len(image.mode) - 1) + [*range(256)])
+    else:
+        # This may fail
+        return image.point(lambda x: 255-x)
 
 
 def resize(image, new_width=100):
@@ -84,7 +99,7 @@ def asciiArtImage(image_path, high_quality=False):
     draw = ImageDraw.Draw(ascii_image_png)
     draw.text((5, 5), ascii_img, font=font)
 
-    ascii_image_png.save("image.png")
-    # return ascii_image_png
+    #ascii_image_png.save("image.png")
+    return ascii_image_png
 
 
