@@ -5,7 +5,7 @@ export async function processImage(user: User | null, image: File) {
     const data = await uploadImage(user, image);
 
     try {
-        const response = await fetch("http://127.0.0.1:5000/process-image", {
+        const response = await fetch("http://127.0.0.1:8080/process-image", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -38,7 +38,7 @@ async function uploadImage(user: User | null, image: File) {
 
     try {
         // fetch signed url
-        const response = await fetch("http://127.0.0.1:5000/get-upload-url", {
+        const response = await fetch("http://127.0.0.1:8080/get-upload-url", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

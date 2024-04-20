@@ -12,6 +12,7 @@ export default function Upload() {
 
     const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.item(0);
+        console.log("uploaded");
 
         if (file) {
             const filename = await processImage(user, file);
