@@ -5,7 +5,7 @@ import datetime
 from storage import *
 from processing import pixelateImage, grayscaleImage, invertImage, asciiArtImage
 from flask_cors import CORS
-from firestore import isNewImage, setImage, getUser, deleteImageFromDb
+from firestore import isNewImage, setImage, getUser
 
 app = Flask(__name__)
 CORS(app)
@@ -57,13 +57,12 @@ def processImage():
     """
     Processes the image into a form of art
     """
-
     try:
         data = request.json
         inputFileName = data.get("inputFileName")
         outputFileName = f"processed-{inputFileName}"
         imageId = inputFileName.split(".")[0]
-        imageType = data.get("imageType")
+        imageType = data.get('imageType')
 
         if not inputFileName:
             return "Error: Filename not found", 400
@@ -83,10 +82,23 @@ def processImage():
         downloadRawImage(inputFileName)
         
         # convert to art
-        pixelated_image = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}", 30) #default: 100
+        try:
+            if(imageType=="P"):
+                userImage = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",50) 
+            elif(imageType=="G"):
+                userImage = grayscaleImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",True)
+            elif(imageType=="I"):
+                userImage = invertImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+            elif(imageType=="A"):
+                userImage = asciiArtImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
+            else:
+                return "Error: Image Type Not Available", 400
+        except:
+            print("Error converting image to art")
+            return "Error converting image to art", 500
 
         # save art
-        downloadProcessedImage(outputFileName, pixelated_image)
+        downloadProcessedImage(outputFileName, userImage)
 
         # upload to processed bucket
         uploadProcessedImage(outputFileName)
@@ -107,43 +119,8 @@ def processImage():
             'status': 'processed'
         })
 
-        # download from bucket
-        downloadRawImage(inputFileName)
-        
-        # convert to art
-        if(imageType=="P"):
-            userImage = pixelateImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",50) 
-        elif(imageType=="G"):
-            userImage = grayscaleImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}",True)
-        elif(imageType=="I"):
-            userImage = invertImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
-        elif(imageType=="A"):
-            userImage = asciiArtImage(f"{LOCAL_RAW_IMAGE_PATH}/{inputFileName}")
-        else:
-            return "Error: Image Type Not Available", 400
-        # save art
-        downloadProcessedImage(outputFileName, userImage)
-
-        # upload to processed bucket
-        uploadProcessedImage(outputFileName)
-
-        # delete locally
-        deleteRawImage(inputFileName)
-        deleteProcessedImage(outputFileName)
-
-        setImage(imageId, {
-            'filename': outputFileName,
-            'status': 'processed'
-        })
     except:
-        try:
-            deleteImageFromDb(imageId)
-            deleteImage(imageId)
-            deleteRawImage(inputFileName)
-            deleteProcessedImage(outputFileName)
-            deleteRawBucketImage(inputFileName)
-        except:
-            pass
+        print("Error processing image")
         return "Error processing image", 500
 
     return jsonify(fileData), 200

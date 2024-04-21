@@ -1,6 +1,8 @@
 # set base image
 FROM python:3.12-slim
 
+ENV HOST 0.0.0.0
+
 # Set the working directory
 WORKDIR /app
 
