@@ -47,7 +47,7 @@ export default function Upload() {
     return (
         <> <div className="flex flex-row justify-center max-w-screen">
             <form
-            className="grow min-w-72 gap-3 justify-center flex flex-row bg-white dark:bg-black border-black dark:border-white border-2 text-black dark:text-white p-2 rounded-md cursor-pointer"
+            className="grow min-w-72 gap-3 justify-center flex flex-row bg-white dark:bg-black border-black dark:border-white border-2 text-black dark:text-white p-2 rounded-md"
             onSubmit={handleUpload}
             >
             <label
@@ -90,7 +90,16 @@ export default function Upload() {
             />
             </form>
             </div>
-            {imageLink && <img src={imageLink} alt="processed image" />}
+            <div>
+            <p className="mx-20 my-4 text-2xl text-center text-balance font-sans dark:text-white">
+                    Image Preview
+                </p>
+            <div className="my-4 flex flex-row justify-center max-w-screen h-48">
+                <div className="flex flex-col justify-center items-center rounded-md bg-gray-200 dark:bg-slate-800 w-1/2">
+                    {imageLink && <img className="max-w-auto max-h-44 object-scale-down" src={imageLink} alt="processed image" />}
+                </div>
+            </div>   
+            </div>   
         </>
     );
 }
