@@ -1,10 +1,14 @@
 import { User } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 
-export async function processImage(user: User | null, image: File, imageType:string) {
+export async function processImage(
+    user: User | null,
+    image: File,
+    imageType: string
+) {
     const data = await uploadImage(user, image, imageType);
     try {
-        const response = await fetch("http://127.0.0.1:8080/process-image", {
+        const response = await fetch("http://10.10.103.14:8080/process-image", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -38,13 +42,16 @@ async function uploadImage(user: User | null, image: File, imageType: string) {
 
     try {
         // fetch signed url
-        const response = await fetch("http://127.0.0.1:8080/get-upload-url", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
+        const response = await fetch(
+            "http://10.10.103.14:8080/get-upload-url",
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }
+        );
 
         // upload image via signed url
         const url = await response.text();
@@ -55,8 +62,6 @@ async function uploadImage(user: User | null, image: File, imageType: string) {
             },
             body: image,
         });
-
-        alert("uploaded baby");
     } catch (err) {
         console.error("ERROR: ", err);
     }

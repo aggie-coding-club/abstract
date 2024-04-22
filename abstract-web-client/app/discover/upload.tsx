@@ -2,7 +2,6 @@
 import { useAuth } from "@/app/components/context/AuthContext";
 import { processImage } from "@/app/api/upload";
 import { useEffect, useState } from "react";
-import { set } from "firebase/database";
 import Loading from "../components/sections/loading";
 
 export default function Upload() {
@@ -35,9 +34,9 @@ export default function Upload() {
         }
     }
 
-    async function handleUpload(event: React.FormEvent) {
-        setLoading(true);
+    async function handleUpload(event: React.FormEvent | TouchEvent) {
         event.preventDefault();
+        setLoading(true);
         if (userFile) {
             const filename = await processImage(user, userFile, imageType);
             if (filename !== undefined) {
@@ -72,6 +71,7 @@ export default function Upload() {
                                 value={imageType}
                                 id="image-type-select"
                                 onChange={handleSelection}
+                                className="bg-white dark:bg-black dark:text-white font-sans font-bold border-none cursor-pointer w-24 h-10 rounded-md outline-none"
                             >
                                 <option value={"P"}>Pixelate</option>
                                 <option value={"G"}>Grayscale</option>
@@ -124,12 +124,14 @@ export default function Upload() {
                     Image Preview
                 </p>
                 <div className="flex justify-center items-center rounded-md bg-gray-200 dark:bg-slate-800 mt-5 font-sans w-72 min-h-72 md:w-96 md:min-h-96">
-                    {imageLink && (
+                    {imageLink ? (
                         <img
                             src={imageLink}
                             alt="art image"
                             className="rounded-md border-2 border-black"
                         />
+                    ) : (
+                        loading && <Loading />
                     )}
                 </div>
             </div>
