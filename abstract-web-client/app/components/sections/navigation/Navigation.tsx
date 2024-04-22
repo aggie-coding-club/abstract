@@ -7,7 +7,7 @@ import NavLinks from "./NavLinks";
 
 export default function Navigation() {
     return (
-        <>
+        <div className="fixed inset-0 top-0 left-0 z-10">
             <nav className="min-w-[320px] bg-transparent dark:bg-black flex justify-between items-center px-3 py-2 md:px-20 md:py-2">
                 <Link
                     href="/"
@@ -24,6 +24,6 @@ export default function Navigation() {
             <AuthProvider>
                 <LoginModal />
             </AuthProvider>
-        </>
+        </div>
     );
 }
